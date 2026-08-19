@@ -8,202 +8,347 @@
 </head>
 <body>
 
-<header class="header">
-  <div class="logo-area">
-    <div class="logo-icon">C</div>
-    <div><h1>CampusBazaar</h1><p>Campus Marketplace</p></div>
-  </div>
-  <nav>
-    <button onclick="showPage('home')">Home</button>
-    <button onclick="showPage('categories')">Categories</button>
-    <button onclick="showPage('sell')">Sell</button>
-    <button onclick="showPage('orders')">My Orders</button>
-    <button onclick="showPage('sellerOrders')">Seller Orders</button>
-    <button onclick="showPage('report')">Report</button>
-  </nav>
-  <button class="notification-btn" onclick="showNotifications()">🔔<span id="notificationCount">0</span></button>
-</header>
-
-<main id="homePage" class="page">
-  <section class="hero">
-    <div class="hero-text">
-      <span class="small-title">🎓 ONLY FOR YOUR CAMPUS</span>
-      <h2>Your campus.<br>Your marketplace.</h2>
-      <p>Buy, sell, swap and discover useful things from students around you.</p>
-      <div class="search-box">
-        <input id="searchInput" placeholder="Search products, notes, food...">
-        <button onclick="searchProducts()">🔍 Search</button>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo-area">
+      <div class="logo-icon">C</div>
+      <div>
+        <h1>CampusBazaar</h1>
+        <p>Campus Marketplace</p>
       </div>
-      <div class="quick-info"><span>✓ Student based</span><span>✓ Campus focused</span><span>✓ Easy to use</span></div>
     </div>
-    <div class="hero-card">
-      <div class="floating-card card-one">📚<div><b>Study Notes</b><small>New listing</small></div></div>
-      <div class="floating-card card-two">🍫<div><b>Homemade Snacks</b><small>Campus pickup</small></div></div>
-      <div class="floating-card card-three">♻️<div><b>Used Calculator</b><small>৳800</small></div></div>
-    </div>
-  </section>
+    <nav>
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('categories')">Categories</button>
+      <button onclick="showPage('sell')">Sell</button>
+      <button onclick="showPage('orders')">My Orders</button>
+      <button onclick="showPage('sellerOrders')">Seller Orders</button>
+      <button onclick="showPage('needBoard')">Need Board</button>
+      <button onclick="showPage('report')">Report</button>
+    </nav>
+    <button class="notification-btn" onclick="showNotifications()">
+      🔔 <span id="notificationCount">0</span>
+    </button>
+  </header>
 
-  <section class="section" id="categoriesSection">
-    <div class="section-heading"><div><span>EXPLORE</span><h2>What are you looking for?</h2></div>
-      <button class="text-button" onclick="showPage('categories')">View all →</button>
-    </div>
-    <div class="category-grid" id="homeCategories"></div>
-  </section>
-
-  <section class="section">
-    <div class="section-heading"><div><span>JUST ARRIVED</span><h2>Latest listings</h2></div></div>
-    <div id="latestProducts" class="product-grid"></div>
-    <div id="noLatest" class="empty-state">
-      <div>🛍️</div><h3>No listings yet</h3>
-      <p>Be the first student to list something.</p>
-      <button onclick="showPage('sell')">List a Product</button>
-    </div>
-  </section>
-</main>
-
-<main id="categoryPage" class="page hidden">
-  <section class="category-banner">
-    <button class="back-button" onclick="showPage('home')">← Back</button>
-    <span id="categoryLabel">CATEGORY</span>
-    <h2 id="categoryTitle">Products</h2>
-    <p id="categoryDescription">Explore products from students.</p>
-    <div class="category-search"><input id="categorySearch" placeholder="Search in this category..." oninput="filterCategoryProducts()"></div>
-  </section>
-  <section class="section">
-    <div id="categoryProducts" class="product-grid"></div>
-    <div id="categoryEmpty" class="empty-state hidden">
-      <div>📦</div><h3>No products here yet</h3>
-      <p>Be the first person to add something to this category.</p>
-      <button onclick="showPage('sell')">Sell Something</button>
-    </div>
-  </section>
-</main>
-
-<main id="categoriesPage" class="page hidden">
-  <section class="simple-banner">
-    <button class="back-button" onclick="showPage('home')">← Home</button>
-    <span>EXPLORE CAMPUSLOOP</span><h2>All Categories</h2>
-    <p>Find exactly what you need on campus.</p>
-  </section>
-  <section class="section"><div class="category-grid" id="allCategories"></div></section>
-</main>
-
-<main id="sellPage" class="page hidden">
-  <section class="sell-layout">
-    <div class="sell-intro">
-      <button class="back-button" onclick="showPage('home')">← Back</button>
-      <span>SELL ON CAMPUSLOOP</span>
-      <h2>Turn your unused things into someone else's find.</h2>
-      <p>List handmade products, food, clothes, notes or useful things for students on your campus.</p>
-      <div class="seller-benefit"><div>✓</div><p><b>Campus focused</b><br>Your product stays within the campus community.</p></div>
-      <div class="seller-benefit"><div>✓</div><p><b>Simple listing</b><br>Add your product information and publish.</p></div>
-      <div class="seller-benefit"><div>✓</div><p><b>Student friendly</b><br>Make buying and selling easier.</p></div>
-    </div>
-
-    <div class="form-card">
-      <h2>List your product</h2><p class="form-subtitle">Fill in the details below.</p>
-      <form id="productForm" onsubmit="addProduct(event)">
-        <label>Product name</label><input id="productName" placeholder="e.g. Handmade Chocolate" required>
-        <label>Category</label>
-        <select id="productCategory" required>
-          <option value="">Select a category</option>
-          <option value="clothes">👕 Clothes</option><option value="notes">📚 Notes</option>
-          <option value="jewellery">💎 Jewellery</option><option value="food">🍰 Food</option>
-          <option value="used">♻️ Used Things</option><option value="swap">🔄 Swap</option>
-        </select>
-        <div class="two-inputs">
-          <div><label>Price</label><input type="number" id="productPrice" placeholder="৳ 0" min="0" required></div>
-          <div><label>Quantity</label><input type="number" id="productQuantity" placeholder="0" min="1" required></div>
+  <!-- HOME PAGE -->
+  <main id="homePage" class="page">
+    <section class="hero">
+      <div class="hero-text">
+        <span class="small-title">🎓 ONLY FOR YOUR CAMPUS</span>
+        <h2>Your campus.<br>Your marketplace.</h2>
+        <p>Buy, sell, swap and discover useful things from students around you.</p>
+        <div class="search-box">
+          <input id="searchInput" placeholder="Search products, notes, food...">
+          <button onclick="searchProducts()">🔍 Search</button>
         </div>
-        <label>Product details</label><textarea id="productDetails" placeholder="Describe condition, size, ingredients, edition, etc." required></textarea>
-        <label>Delivery information</label><textarea id="productDelivery" placeholder="e.g. Campus pickup at library / Hall delivery" required></textarea>
-        <label>Product picture</label>
-        <div class="upload-box">
-          <input type="file" id="productImage" accept="image/*" required onchange="previewImage(event)">
-          <div class="upload-content"><div class="upload-icon">📷</div><b>Click to upload a picture</b><small>JPG, PNG or WEBP</small></div>
+        <div class="quick-info">
+          <span>✓ Student based</span>
+          <span>✓ Campus focused</span>
+          <span>✓ Easy to use</span>
         </div>
-        <div id="imagePreview" class="image-preview hidden"><img id="preview"></div>
-        <button class="publish-button">Publish Product →</button>
-      </form>
-    </div>
-  </section>
-</main>
+      </div>
+      <div class="hero-card">
+        <div class="floating-card card-one">📚<div><b>Study Notes</b><small>New listing</small></div></div>
+        <div class="floating-card card-two">🍫<div><b>Homemade Snacks</b><small>Campus pickup</small></div></div>
+        <div class="floating-card card-three">♻️<div><b>Used Calculator</b><small>৳800</small></div></div>
+      </div>
+    </section>
 
-<main id="productPage" class="page hidden">
-  <section class="product-detail-section">
-    <button class="back-button" onclick="goBackFromProduct()">← Back</button>
-    <div id="productDetail" class="product-detail"></div>
-  </section>
-</main>
+    <section class="section" id="categoriesSection">
+      <div class="section-heading">
+        <div><span>EXPLORE</span><h2>What are you looking for?</h2></div>
+        <button class="text-button" onclick="showPage('categories')">View all →</button>
+      </div>
+      <div class="category-grid" id="homeCategories"></div>
+    </section>
 
-<main id="searchPage" class="page hidden">
-  <section class="simple-banner">
-    <button class="back-button" onclick="showPage('home')">← Home</button>
-    <span>SEARCH RESULTS</span><h2 id="searchTitle">Search</h2><p>Products matching your search.</p>
-  </section>
-  <section class="section">
-    <div id="searchResults" class="product-grid"></div>
-    <div id="searchEmpty" class="empty-state hidden"><div>🔎</div><h3>No matching products</h3><p>Try another product name or category.</p></div>
-  </section>
-</main>
+    <section class="section">
+      <div class="section-heading">
+        <div><span>JUST ARRIVED</span><h2>Latest listings</h2></div>
+      </div>
+      <div id="latestProducts" class="product-grid"></div>
+      <div id="noLatest" class="empty-state">
+        <div>🛍️</div>
+        <h3>No listings yet</h3>
+        <p>Be the first student to list something.</p>
+        <button onclick="showPage('sell')">List a Product</button>
+      </div>
+    </section>
+  </main>
 
-<main id="ordersPage" class="page hidden">
-  <section class="simple-banner">
-    <button class="back-button" onclick="showPage('home')">← Home</button>
-    <span>YOUR PURCHASES</span><h2>My Orders</h2><p>Track the products you have requested.</p>
-  </section>
-  <section class="section">
-    <div id="myOrders" class="order-list"></div>
-    <div id="noOrders" class="empty-state"><div>🛒</div><h3>No orders yet</h3><p>Products you request will appear here.</p><button onclick="showPage('home')">Browse Products</button></div>
-  </section>
-</main>
-
-<main id="sellerOrdersPage" class="page hidden">
-  <section class="simple-banner">
-    <button class="back-button" onclick="showPage('home')">← Home</button>
-    <span>SELLER DASHBOARD</span><h2>Incoming Orders</h2><p>See purchase requests from campus students.</p>
-  </section>
-  <section class="section">
-    <div id="sellerOrders" class="order-list"></div>
-    <div id="noSellerOrders" class="empty-state"><div>📦</div><h3>No orders yet</h3><p>New customer orders will appear here.</p></div>
-  </section>
-</main>
-
-<main id="reportPage" class="page hidden">
-  <section class="report-layout">
-    <div class="report-intro">
+  <!-- CATEGORY PAGE -->
+  <main id="categoryPage" class="page hidden">
+    <section class="category-banner">
       <button class="back-button" onclick="showPage('home')">← Back</button>
-      <span>CAMPUS SAFETY & SUPPORT</span><h2>Something went wrong? Tell us.</h2>
-      <p>Report a problem with a product, seller or transaction. Your report can be reviewed by the campus authority.</p>
-      <div class="authority-note">🛡️<div><b>Campus moderation</b><p>Reports are intended for campus authority review.</p></div></div>
+      <span id="categoryLabel">CATEGORY</span>
+      <h2 id="categoryTitle">Products</h2>
+      <p id="categoryDescription">Explore products from students.</p>
+      <div class="category-search">
+        <input id="categorySearch" placeholder="Search in this category..." oninput="filterCategoryProducts()">
+      </div>
+    </section>
+
+    <section class="section">
+      <div id="categoryProducts" class="product-grid"></div>
+      <div id="categoryEmpty" class="empty-state hidden">
+        <div>📦</div>
+        <h3>No products here yet</h3>
+        <p>Be the first person to add something to this category.</p>
+        <button onclick="showPage('sell')">Sell Something</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ALL CATEGORIES PAGE -->
+  <main id="categoriesPage" class="page hidden">
+    <section class="simple-banner">
+      <button class="back-button" onclick="showPage('home')">← Home</button>
+      <span>EXPLORE CAMPUSLOOP</span>
+      <h2>All Categories</h2>
+      <p>Find exactly what you need on campus.</p>
+    </section>
+    <section class="section">
+      <div class="category-grid" id="allCategories"></div>
+    </section>
+  </main>
+
+  <!-- SELL PAGE -->
+  <main id="sellPage" class="page hidden">
+    <section class="sell-layout">
+      <div class="sell-intro">
+        <button class="back-button" onclick="showPage('home')">← Back</button>
+        <span>SELL ON CAMPUSLOOP</span>
+        <h2>Turn your unused things into someone else's find.</h2>
+        <p>List handmade products, food, clothes, notes or useful things for students on your campus.</p>
+        <div class="seller-benefit"><div>✓</div><p><b>Campus focused</b><br>Your product stays within the campus community.</p></div>
+        <div class="seller-benefit"><div>✓</div><p><b>Simple listing</b><br>Add your product information and publish.</p></div>
+        <div class="seller-benefit"><div>✓</div><p><b>Student friendly</b><br>Make buying and selling easier.</p></div>
+      </div>
+
+      <div class="form-card">
+        <h2>List your product</h2>
+        <p class="form-subtitle">Fill in the details below.</p>
+        <form id="productForm" onsubmit="addProduct(event)">
+          <label>Product name</label>
+          <input id="productName" placeholder="e.g. Handmade Chocolate" required>
+          <label>Category</label>
+          <select id="productCategory" required>
+            <option value="">Select a category</option>
+            <option value="clothes">👕 Clothes</option>
+            <option value="notes">📚 Notes</option>
+            <option value="jewellery">💎 Jewellery</option>
+            <option value="food">🍰 Food</option>
+            <option value="used">♻️ Used Things</option>
+            <option value="swap">🔄 Swap</option>
+          </select>
+          <div class="two-inputs">
+            <div><label>Price</label><input type="number" id="productPrice" placeholder="৳ 0" min="0" required></div>
+            <div><label>Quantity</label><input type="number" id="productQuantity" placeholder="0" min="1" required></div>
+          </div>
+          <label>Product details</label>
+          <textarea id="productDetails" placeholder="Describe condition, size, ingredients, edition, etc." required></textarea>
+          <label>Delivery information</label>
+          <textarea id="productDelivery" placeholder="e.g. Campus pickup at library / Hall delivery" required></textarea>
+          <label>Product picture</label>
+          <div class="upload-box">
+            <input type="file" id="productImage" accept="image/*" required onchange="previewImage(event)">
+            <div class="upload-content">
+              <div class="upload-icon">📷</div>
+              <b>Click to upload a picture</b>
+              <small>JPG, PNG or WEBP</small>
+            </div>
+          </div>
+          <div id="imagePreview" class="image-preview hidden"><img id="preview"></div>
+          <button class="publish-button">Publish Product →</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- PRODUCT DETAIL PAGE -->
+  <main id="productPage" class="page hidden">
+    <section class="product-detail-section">
+      <button class="back-button" onclick="goBackFromProduct()">← Back</button>
+      <div id="productDetail" class="product-detail"></div>
+    </section>
+  </main>
+
+  <!-- SEARCH PAGE -->
+  <main id="searchPage" class="page hidden">
+    <section class="simple-banner">
+      <button class="back-button" onclick="showPage('home')">← Home</button>
+      <span>SEARCH RESULTS</span>
+      <h2 id="searchTitle">Search</h2>
+      <p>Products matching your search.</p>
+    </section>
+    <section class="section">
+      <div id="searchResults" class="product-grid"></div>
+      <div id="searchEmpty" class="empty-state hidden">
+        <div>🔎</div>
+        <h3>No matching products</h3>
+        <p>Try another product name or category.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- MY ORDERS -->
+  <main id="ordersPage" class="page hidden">
+    <section class="simple-banner">
+      <button class="back-button" onclick="showPage('home')">← Home</button>
+      <span>YOUR PURCHASES</span>
+      <h2>My Orders</h2>
+      <p>Track the products you have requested.</p>
+    </section>
+    <section class="section">
+      <div id="myOrders" class="order-list"></div>
+      <div id="noOrders" class="empty-state">
+        <div>🛒</div>
+        <h3>No orders yet</h3>
+        <p>Products you request will appear here.</p>
+        <button onclick="showPage('home')">Browse Products</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- SELLER ORDERS -->
+  <main id="sellerOrdersPage" class="page hidden">
+    <section class="simple-banner">
+      <button class="back-button" onclick="showPage('home')">← Home</button>
+      <span>SELLER DASHBOARD</span>
+      <h2>Incoming Orders</h2>
+      <p>See purchase requests from campus students.</p>
+    </section>
+    <section class="section">
+      <div id="sellerOrders" class="order-list"></div>
+      <div id="noSellerOrders" class="empty-state">
+        <div>📦</div>
+        <h3>No orders yet</h3>
+        <p>New customer orders will appear here.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- NEED BOARD PAGE -->
+  <main id="needBoardPage" class="page hidden">
+    <section class="simple-banner">
+      <button class="back-button" onclick="showPage('home')">← Home</button>
+      <span>CAMPUS NEED BOARD</span>
+      <h2>Need Something?</h2>
+      <p>Tell other students what you are looking for.</p>
+    </section>
+
+    <section class="sell-layout">
+      <div class="sell-intro">
+        <span>POST A REQUEST</span>
+        <h2>Can't find what you need?</h2>
+        <p>Post a request and let other students know what you are looking for.</p>
+        <div class="seller-benefit"><div>📌</div><p><b>Easy request</b><br>Tell students exactly what you are looking for.</p></div>
+        <div class="seller-benefit"><div>💰</div><p><b>Set your budget</b><br>Let sellers know your expected price.</p></div>
+        <div class="seller-benefit"><div>📞</div><p><b>Contact number</b><br>Sellers can contact you about your request.</p></div>
+      </div>
+
+      <div class="form-card">
+        <h2>Post a Need</h2>
+        <p class="form-subtitle">Tell other students what you need.</p>
+        <form id="needForm" onsubmit="addNeed(event)">
+          <label>What do you need?</label>
+          <input type="text" id="needName" placeholder="e.g. Calculus textbook" required>
+          <label>Category</label>
+          <select id="needCategory" required>
+            <option value="">Select a category</option>
+            <option value="clothes">👕 Clothes</option>
+            <option value="notes">📚 Notes & Books</option>
+            <option value="jewellery">💎 Jewellery & Accessories</option>
+            <option value="food">🍰 Homemade Food</option>
+            <option value="used">♻️ Used Things</option>
+            <option value="swap">🔄 Swap Corner</option>
+          </select>
+          <label>Your budget</label>
+          <input type="number" id="needBudget" placeholder="৳ 0" min="0" required>
+          <label>Phone Number</label>
+          <input type="tel" id="needPhone" placeholder="e.g. 01XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" required>
+          <small>Sellers can use this number to contact you.</small>
+          <label>More details</label>
+          <textarea id="needDetails" placeholder="Describe what you are looking for..." required></textarea>
+          <button class="publish-button" type="submit">📌 Post My Need</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <div><span>STUDENT REQUESTS</span><h2>What students need <span id="needCount">0</span></h2></div>
+      </div>
+      <div id="needList" class="order-list"></div>
+      <div id="needEmpty" class="empty-state">
+        <div>📌</div>
+        <h3>No requests yet</h3>
+        <p>Be the first student to post something you need.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- REPORT PAGE -->
+  <main id="reportPage" class="page hidden">
+    <section class="report-layout">
+      <div class="report-intro">
+        <button class="back-button" onclick="showPage('home')">← Back</button>
+        <span>CAMPUS SAFETY & SUPPORT</span>
+        <h2>Something went wrong? Tell us.</h2>
+        <p>Report a problem with a product, seller or transaction. Your report can be reviewed by the campus authority.</p>
+        <div class="authority-note">
+          🛡️
+          <div><b>Campus moderation</b><p>Reports are intended for campus authority review.</p></div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>Report an issue</h2>
+        <p class="form-subtitle">Please provide accurate information.</p>
+        <form onsubmit="submitReport(event)">
+          <label>Product or seller</label>
+          <input id="reportTarget" placeholder="Product name or seller" required>
+          <label>Issue type</label>
+          <select id="reportType" required>
+            <option value="">Select an issue</option>
+            <option>Product issue</option>
+            <option>Seller behaviour</option>
+            <option>Payment issue</option>
+            <option>Delivery issue</option>
+            <option>Other</option>
+          </select>
+          <label>Explain the problem</label>
+          <textarea id="reportMessage" placeholder="Tell us what happened..." required></textarea>
+          <button class="publish-button">Submit Report</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- NOTIFICATIONS & TOAST -->
+  <div id="notificationPanel" class="notification-panel hidden">
+    <div class="notification-header">
+      <h3>Notifications</h3>
+      <button onclick="closeNotifications()">×</button>
     </div>
-    <div class="form-card">
-      <h2>Report an issue</h2><p class="form-subtitle">Please provide accurate information.</p>
-      <form onsubmit="submitReport(event)">
-        <label>Product or seller</label><input id="reportTarget" placeholder="Product name or seller" required>
-        <label>Issue type</label>
-        <select id="reportType" required>
-          <option value="">Select an issue</option><option>Product issue</option><option>Seller behaviour</option>
-          <option>Payment issue</option><option>Delivery issue</option><option>Other</option>
-        </select>
-        <label>Explain the problem</label><textarea id="reportMessage" placeholder="Tell us what happened..." required></textarea>
-        <button class="publish-button">Submit Report</button>
-      </form>
+    <div id="notificationList"></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <h2>CampusBazaar</h2>
+      <p>A marketplace made for your campus.</p>
     </div>
-  </section>
-</main>
+    <div>
+      <p>Buy • Sell • Swap • Support</p>
+      <small>© 2026 CampusBazaar. All rights reserved.</small>
+    </div>
+  </footer>
 
-<div id="notificationPanel" class="notification-panel hidden">
-  <div class="notification-header"><h3>Notifications</h3><button onclick="closeNotifications()">×</button></div>
-  <div id="notificationList"></div>
-</div>
-<div id="toast" class="toast"></div>
-
-<footer>
-  <div><h2>CampusBazaar</h2><p>A marketplace made for your campus.</p></div>
-  <div><p>Buy • Sell • Swap • Support</p><small>© 2026 CampusBazaar. All rights reserved.</small></div>
-</footer>
-
-<script src="campusbazar.js"></script>
+  <script src="campusbazar.js"></script>
 </body>
 </html>
